@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Diagram Example using D3</title>
+
+</head>
+<body style="position:absolute; z-index:0; width:90%; height:90%;">
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+  <h1>A Network Diagram Example Layout</h1>
+  <!--<svg
+          xmlns="http://www.w3.org/2000/svg"
+          style="width:100%;height:3000px"
+          id="svg2"
+          version="1.1"
+         >
+  -->
+
+  <!--these paths create the cloud shape with the AWS text inside -->
+  <!--<g
+          id="gAWSIcon">
+
+      <path
+              d="m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z"
+              sodipodi:ry="23.571428"
+              sodipodi:rx="24.285715"
+              sodipodi:cy="62.362183"
+              sodipodi:cx="58.57143"
+              id="path3915"
+              style="fill:#f68d00;fill-opacity:0.99543379;stroke:none"
+              sodipodi:type="arc"
+              transform="translate(37.857144,0.71428568)" />
+      <path
+              transform="translate(53.571429,-16.428572)"
+              sodipodi:type="arc"
+              style="fill:#f68d00;fill-opacity:0.99543379;stroke:none"
+              id="path3935"
+              sodipodi:cx="58.57143"
+              sodipodi:cy="62.362183"
+              sodipodi:rx="24.285715"
+              sodipodi:ry="23.571428"
+              d="m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z" />
+      <path
+              d="m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z"
+              sodipodi:ry="23.571428"
+              sodipodi:rx="24.285715"
+              sodipodi:cy="62.362183"
+              sodipodi:cx="58.57143"
+              id="path3937"
+              style="fill:#f68d00;fill-opacity:0.99543379;stroke:none"
+              sodipodi:type="arc"
+              transform="translate(70.714287,2.857143)" />
+      <path
+              transform="translate(90.000001,-20)"
+              sodipodi:type="arc"
+              style="fill:#f68d00;fill-opacity:0.99543379;stroke:none"
+              id="path3939"
+              sodipodi:cx="58.57143"
+              sodipodi:cy="62.362183"
+              sodipodi:rx="24.285715"
+              sodipodi:ry="23.571428"
+              d="m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z" />
+      <path
+              d="m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z"
+              sodipodi:ry="23.571428"
+              sodipodi:rx="24.285715"
+              sodipodi:cy="62.362183"
+              sodipodi:cx="58.57143"
+              id="path3941"
+              style="fill:#f68d00;fill-opacity:0.99543379;stroke:none"
+              sodipodi:type="arc"
+              transform="translate(104.28572,2.1428572)" />
+  </g>-->
+  <!--<text
+       xml:space="preserve"
+       style="font-size:22px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans;-inkscape-font-specification:Sans"
+       x="105.0406"
+       y="73.227623"
+       id="text3943"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3945"
+         x="105.0406"
+         y="73.227623">AWS</tspan></text>-->
+
+  <!--VPC Rect -->
+ <!-- <rect
+          style="opacity:0.90946499999999997;fill:#cccbbe;fill-opacity:1;stroke:#000000;stroke-width:2.70983338000000007;stroke-opacity:1"
+          id="rectRegion1"
+          width="581.26013"
+          height="380.14014"
+          x="73.007973"
+          y="130.70273"
+          ry="74.146713"
+          rx="74.146721" />
+-->
+  <!--<text
+       xml:space="preserve"
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="303.08423"
+       y="173.35616"
+       id="textVPC1"
+       sodipodi:linespacing="125%"><tspan
+         sodipodi:role="line"
+         id="tspan3780"
+         x="303.08423"
+         y="173.35616">VPC 1</tspan></text>
+  -->
+  <!--</svg>-->
+<script type="text/javascript">
+    //var region = d3.select("body").select("svg").select("g").selectAll("rect");
+
+    var region = d3.select("body")
+            .append("svg")
+            .attr("height", "3000px")
+            .attr("width", "100%");
+
+    //mock/dummy data
+    var regionAreas = [{name: 'us-east-1'},{name: 'us-west-1'},{name: 'us-west-1'}];
+
+    //used to calculate next Vertical (y) position for next Region Rectangle
+    //we want to place next Region Rectange below the previous one
+
+    var regionRectHeight =  390;
+    var regionRectWidth =  610;
+
+    var posY = 10;
+
+    var regionEnter = region.selectAll("svg")
+            .data(regionAreas)
+            .enter()
+               .append("g")
+               //.attr("class","regionGroup")
+               .append("rect")
+                    .style({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#000000','stroke-width':2.70983338000000007,'stroke-opacity':1})
+                    .attr("class","region")
+                    .attr("width",610)
+                    .attr("height",390)
+                    .attr("fill","#cccbbe")
+                    .attr("ry",74.146713)
+                    .attr("rx",74.146721)
+                    .attr("x",73.007973)
+                    .attr("y", function(d,i){
+                                var newPosY;
+                                if(i==0){
+                                    posY = posY + 80;
+                                    return posY;
+                                }
+                                else{
+                                    posY = posY + regionRectHeight + 80;
+                                    return posY;
+                                }
+                    })
+                    .attr("id", function(d){
+                           if(d.name){
+                               return d.name;
+                           }
+                    });
+
+     //Add Text Label to Each Region
+       region.selectAll(".regionGroup")
+               .append("text")
+               .attr("transform", function(d,i){
+                 return "translate(" + regionRectHeight * i + ",0";
+               })
+               .attr("font-size","2em")
+               .attr("color", "black")
+              .text(function(d){
+                 if(d.name){
+                    return d.name;
+                 }
+                   else{
+                     return "unknown";
+                 }
+       });
+
+
+</script>
+</body>
+
+</html>
