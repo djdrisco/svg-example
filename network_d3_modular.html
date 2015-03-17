@@ -7,7 +7,7 @@
 <body style="position:absolute; z-index:0; width:90%; height:90%;">
 <script charset="utf-8" src="d3.js"></script>
 
-<h1>A Network Diagram Demo using D3.js Graphics Library</h1>
+<h1>Network Diagram Demo using D3.js Graphics Library</h1>
 
 
 <script type="text/javascript">
@@ -627,8 +627,8 @@
       .datum(regionAreas)
       .call(awsRegionsChart);
 
-    var availZones =  [{name: 'us-east-1a', numberOfInstances: 8}];
-    var availZonesTopBottomPadding = availZones[0].numberOfInstances * 45;
+    var availZones =  [{name: 'us-east-1a', numberOfInstances: 4}];
+    var availZonesTopBottomPadding = availZones[0].numberOfInstances * 60;
     var awsAvailZonesChart = networkChartRegions()
                                 .startXPosition(83)
                                 .startYPosition(145)
@@ -706,10 +706,10 @@
        ];
 
        var awsInstancesChart = networkChartInstances()
-                               .startXPosition(127)
+                               .startXPosition(133)
                                .startYPosition(210)
                                .regionRectWidth(200)
-                               .parentRectWidth(570)
+                               .parentRectWidth(575)
                                .rectStyle({'opacity':0.90946499999999997,'fill':'#f68d00','fill-opacity':1 });
 
        d3.select("body")
