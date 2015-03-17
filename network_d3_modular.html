@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Network Diagram Example using D3</title>
+
+</head>
+<body style="position:absolute; z-index:0; width:90%; height:90%;">
+<script charset="utf-8" src="d3.js"></script>
+
+<h1>A Network Diagram Demo using D3.js Graphics Library</h1>
+
+
+<script type="text/javascript">
+
+    //Header Cloud Shape
+    function cloudChart(){
+
+        var startXPosition = 73;
+        var startYPosition = 80;
+        var labelUnknown =  "Unknown";
+        var titleLabelLeftPadding = 25;
+        var cloudClassName = "regionGroup";
+
+
+        function  my(selection) {
+
+            selection.each(function(d){
+                //select the svg element if it exists
+                //otherwise create the svg element for the chart
+                var svgExists = d3.select(this).selectAll('svg');
+
+                //if svg element doesn't exist add it
+                var startEnter;
+                if(svgExists==false){
+                    startEnter = d3.select(this)
+                            .append("svg")
+                            .attr("xmlns","http://www.w3.org/2000/svg")
+                            .attr("height", "4500px")
+                            .attr("width", "100%") ;
+                }
+                else{
+                    startEnter = d3.select(this).selectAll('svg');
+                }
+
+                startEnter
+                        .selectAll("g." + cloudClassName)
+                        .data(d)
+                        .enter()
+                        .append("g")
+                        .attr("class",cloudClassName);
+
+                var groupSection =    d3.select(this).selectAll("g." + cloudClassName);
+
+                //add paths to create Cloud Shape
+                //#1
+                groupSection.append("path")
+                        .attr("d","m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z")
+                        .attr("ry","23.571428")
+                        .attr("rx","24.285715")
+                        .attr("cy","62.362183")
+                        .attr("cx","58.57143")
+                        .attr("transform", function(d){ return "translate(37.857144,0.71428568)" })
+                        .style({'fill':'#f68d00','fill-opacity':0.99543379,'stroke':'none'})
+                        .attr("id","path3915");
+                //#2
+                groupSection.append("path")
+                        .attr("d","m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z")
+                        .attr("ry","23.571428")
+                        .attr("rx","24.285715")
+                        .attr("cy","62.362183")
+                        .attr("cx","58.57143")
+                        .attr("transform", function(d){ return "translate(53.571429,-16.428572)" })
+                        .style({'fill':'#f68d00','fill-opacity':0.99543379,'stroke':'none'})
+                        .attr("id","path3935");
+
+                //#3
+                groupSection.append("path")
+                        .attr("d","m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z")
+                        .attr("ry","23.571428")
+                        .attr("rx","24.285715")
+                        .attr("cy","62.362183")
+                        .attr("cx","58.57143")
+                        .attr("transform", function(d){ return "translate(70.714287,2.857143)" })
+                        .style({'fill':'#f68d00','fill-opacity':0.99543379,'stroke':'none'})
+                        .attr("id","path3937");
+
+                //#4
+                groupSection.append("path")
+                        .attr("d","m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z")
+                        .attr("ry","23.571428")
+                        .attr("rx","24.285715")
+                        .attr("cy","62.362183")
+                        .attr("cx","58.57143")
+                        .attr("transform", function(d){ return "translate(90.000001,-20)" })
+                        .style({'fill':'#f68d00','fill-opacity':0.99543379,'stroke':'none'})
+                        .attr("id","path3939");
+
+                //#5
+                groupSection.append("path")
+                        .attr("d","m 82.857145,62.362183 a 24.285715,23.571428 0 1 1 -48.57143,0 24.285715,23.571428 0 1 1 48.57143,0 z")
+                        .attr("ry","23.571428")
+                        .attr("rx","24.285715")
+                        .attr("cy","62.362183")
+                        .attr("cx","58.57143")
+                        .attr("transform", function(d){ return "translate(104.28572,2.1428572)" })
+                        .style({'fill':'#f68d00','fill-opacity':0.99543379,'stroke':'none'})
+                        .attr("id","path3941");
+
+                //Add Text Label
+
+                groupSection
+                        .append("text")
+                        .attr("font-size","12px")
+                        .attr("font-family","Verdana")
+                        .attr("font-weight","bold")
+                        .attr("x", function(d,i){
+                            return startXPosition + titleLabelLeftPadding;
+                        })
+                        .attr("y", function(d,i){
+                            var posTextY = startYPosition + 10;
+                            return posTextY;
+
+                        })
+                        .attr("id", function(d){
+                            if(d.name){
+                                return "label" + d.name;
+                            }
+                        })
+                        .text(function(d){
+                            if(d.name){
+                                return  d.name.toUpperCase();
+                            }
+                            else{
+                                return labelUnknown;
+                            }
+                        });
+
+            });
+        };
+
+        my.startXPosition = function(value){
+            if(!arguments.length) return startXPosition;
+            startXPosition = value;
+            return my;
+        }
+
+        my.startYPosition = function(value){
+            if(!arguments.length) return startYPosition;
+            startYPosition = value;
+            return my;
+        }
+
+        my.cloudClassName = function(value){
+            if(!arguments.length) return cloudClassName;
+            cloudClassName = value;
+            return my;
+        }
+
+        my.titleLabelLeftPadding =  function(value){
+            if(!arguments.length) return titleLabelLeftPadding;
+            titleLabelLeftPadding = value;
+            return my;
+        }
+
+        return my;
+    }
+
+    function networkChartRegions(){
+        var instanceRectHeight = 120;
+        var startXPosition = 73;
+        var startYPosition = 80;
+        var regionRectWidth = 610;
+        var parentRectWidth = 630;
+        var topBottomPadding = 80;
+        var titleLabelLeftPadding = 25;
+        var rectStyle = {'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#ea6c00','stroke-width':4.15884066,'stroke-linejoin':'round','stroke-miterlimit':4,
+            'stroke-opacity':0.93607309, 'stroke-dasharray': 12.4765228, 'stroke-dashoffset':0 };  //default style
+        var label = "Region ";
+        var labelUnknown = label + "Unknown";
+        var groupClassName = "regionGroup";
+
+
+        function  my(selection) {
+            //generate chart
+            selection.each(function(d){
+
+
+                //select the svg element if it exists
+                //otherwise create the svg element for the chart
+                var svgExists = d3.select(this).selectAll('svg');
+
+                //if svg element doesn't exist add it
+                var startEnter;
+                if(svgExists==false){
+                    startEnter = d3.select(this)
+                            .append("svg")
+                            .attr("xmlns","http://www.w3.org/2000/svg")
+                            .attr("height", "4500px")
+                            .attr("width", "100%") ;
+                }
+                else{
+                    startEnter = d3.select(this).selectAll('svg');
+                }
+
+                startEnter
+                        .selectAll("g." + groupClassName)
+                        .data(d)
+                        .enter()
+                        .append("g")
+                        .attr("class",groupClassName)
+                        .append("rect")
+                        .style(rectStyle)
+                        .attr("width",function(d,i){
+                                    return parentRectWidth - 20;
+                                })
+                        .attr("height",function(d,i){
+                                    //Height of Region is proportional to the number of instances in a Region (HeightOfInstances plus padding between Rectangles)
+                                    var calcHeight=(d.numberOfInstances * instanceRectHeight)/2 + topBottomPadding;
+                                    return calcHeight;
+                                })
+                        .attr("ry",74.146713)
+                        .attr("rx",74.146721)
+                        .attr("x",startXPosition)
+                        .attr("y", startYPosition)
+                        .attr("id", function(d){
+                            if(d.name){
+                                return d.name;
+                            }
+                        });
+
+                //Add Text Label to Each Region
+
+                d3.select(this).selectAll("g." + groupClassName)
+                        .append("text")
+                        .attr("font-size","12px")
+                        .attr("font-family","Verdana")
+                        .attr("font-weight","bold")
+                        .attr("x", function(d,i){
+                            return startXPosition + titleLabelLeftPadding;
+                        })
+                        .attr("y", function(d,i){
+                            var posTextY = startYPosition - 7;
+                            return posTextY;
+
+                        })
+                        .attr("id", function(d){
+                            if(d.name){
+                                return "label" + d.name;
+                            }
+                        })
+                        .text(function(d){
+                            if(d.name){
+                                return label + " " + d.name.toUpperCase();
+                            }
+                            else{
+                                return labelUnknown;
+                            }
+                        });
+
+            });
+        };
+
+
+        my.rectStyle = function(value){
+            if(!arguments.length) return rectStyle;
+            rectStyle = value;
+            return my;
+        }
+
+        my.instanceRectHeight = function(value){
+            if(!arguments.length) return instanceRectHeight;
+            instanceRectHeight = value;
+            return my;
+        }
+
+        my.startXPosition = function(value){
+            if(!arguments.length) return startXPosition;
+            startXPosition = value;
+            return my;
+        }
+
+        my.startYPosition = function(value){
+            if(!arguments.length) return startYPosition;
+            startYPosition = value;
+            return my;
+        }
+
+        my.regionRectWidth = function(value){
+            if(!arguments.length) return regionRectWidth;
+            regionRectWidth = value;
+            return my;
+        }
+
+        my.parentRectWidth = function(value){
+            if(!arguments.length) return parentRectWidth;
+            parentRectWidth = value;
+            return my;
+        }
+
+        my.groupClassName = function(value){
+            if(!arguments.length) return groupClassName;
+            groupClassName = value;
+            return my;
+        }
+
+        my.label = function(value){
+            if(!arguments.length) return label;
+            label = value;
+            return my;
+        }
+
+        my.topBottomPadding =  function(value){
+            if(!arguments.length) return topBottomPadding;
+            topBottomPadding = value;
+            return my;
+        }
+
+        my.titleLabelLeftPadding =  function(value){
+            if(!arguments.length) return titleLabelLeftPadding;
+            titleLabelLeftPadding = value;
+            return my;
+        }
+
+        return my;
+    }
+
+    function networkChartInstances(){
+        var instanceRectHeight = 120;
+        var startXPosition = 73.007973;
+        var startYPosition = 80;
+        var regionRectWidth = 250;
+        var parentRectWidth = 570;
+        var rectStyle = {'opacity':0.90946499999999997,'fill':'#f68d00','fill-opacity':1 };  //default style
+        var rowPosition = 0;
+        var itemsInRow = 0;
+        var newRow = false;
+
+        function my(selection){
+            //generate chart
+
+            selection.each(function(d){
+                //select the svg element if it exists
+                //otherwise create the skeletal chart
+                var svgExists = d3.select(this).selectAll('svg');
+
+                //if svg element doesn't exist add it
+                var startEnter;
+                if(svgExists==false){
+                    startEnter = d3.select(this)
+                            .append("svg")
+                            .attr("xmlns","http://www.w3.org/2000/svg")
+                            .attr("height", "4500px")
+                            .attr("width", "100%") ;
+                }
+                else{
+                    startEnter = d3.select(this).selectAll('svg');
+                }
+                    startEnter
+                        .selectAll("g.instanceGroup")
+                        .data(d)
+                        .enter()
+                        .append("g")
+                        .attr("class","instanceGroup")
+                        .append("rect")
+                        .style(rectStyle)
+                        .attr("width",regionRectWidth)
+                        .attr("height",function(d,i){
+
+                            return instanceRectHeight;
+                        })
+                        .attr("ry",14.64286)
+                        .attr("rx",16.5751)
+                        .each(function (d,i){
+                          //calculate x
+                            var finalXPosition = 0;
+                            var helper = function(d,i){
+                                if(i===0){
+                                    return startXPosition;
+                                }
+                                else{
+                                    return startXPosition + (itemsInRow * regionRectWidth) + (itemsInRow * 10);
+                                }
+                            }
+
+                            var calcX = helper(d,i);
+
+                            //if adding the instance rect in this spot, causes it to be outside of parent rect
+                            //then move down to next row
+                            if(calcX + regionRectWidth > parentRectWidth){
+                                //move down and set x to be first column  - this is done .attr("y") function
+                                //move down by increasing the startYPosition
+                                newRow = true;
+                                //newRow set ItemsInRow to 1
+                                itemsInRow = 1;
+                                finalXPosition = startXPosition;
+                            }
+                            else{
+                                newRow = false;
+                                itemsInRow = itemsInRow + 1;
+                                finalXPosition  = calcX;
+                            }
+
+                            //calculate y
+                            var finalYPosition=0;
+                            if(rowPosition===0){             //initial to rowPosition to startYPosition
+                                rowPosition = startYPosition;
+                            }
+
+                            //if adding the instance rect in this spot, causes it to be outside of parent rect
+                            //then move down to next row
+                            if(newRow){
+                                rowPosition = rowPosition + instanceRectHeight + 20;
+                                finalYPosition = rowPosition;
+                            }
+                            else{
+                                finalYPosition = rowPosition;
+                            }
+
+                            //set x, y attribute
+                            d3.select(this).attr({
+                                x: finalXPosition,
+                                y: finalYPosition
+                            })
+
+                        })
+                        .attr("id", function(d){
+                            if(d.name){
+                                return d.name;
+                            }
+                        });
+
+
+                //Add Text Labels to Each Instance
+                rowPosition = 0;
+                itemsInRow = 0;
+                newRow = false;
+
+                var labelSection = d3.select(this).selectAll(".instanceGroup")
+                        .append("text")
+                        .attr("font-size","9px")
+                        .attr("font-family","Verdana")
+                        .attr("font-weight","bold")
+                        .each(function (d,i){
+                            //calculate x
+                            var finalXPosition = 0;
+                            var helper = function(d,i){
+                                if(i===0){
+                                    return startXPosition + 40;
+                                }
+                                else{
+                                    return startXPosition + (itemsInRow * regionRectWidth) + (itemsInRow * 40);
+                                }
+                            }
+
+                            var calcX = helper(d,i);
+
+                            //if adding the instance rect in this spot, causes it to be outside of parent rect
+                            //then move down to next row
+                            if(calcX + regionRectWidth > parentRectWidth){
+                                //move down and set x to be first column
+                                //move down by increasing the startYPosition
+                                newRow = true;
+                                //newRow set ItemsInRow to 1
+                                itemsInRow = 1;
+                                finalXPosition = startXPosition + 40;
+                            }
+                            else{
+                                newRow = false;
+                                itemsInRow = itemsInRow + 1;
+                                finalXPosition  = calcX;
+                            }
+
+                            //calculate y
+                            var finalYPosition=0;
+                            if(rowPosition===0){             //initial to rowPosition to startYPosition
+                                rowPosition = startYPosition + 25;
+                            }
+
+                            //if adding the instance rect in this spot, causes it to be outside of parent rect
+                            //then move down to next row
+                            if(newRow){
+                                rowPosition = rowPosition + instanceRectHeight + 15;
+                                finalYPosition = rowPosition;
+                            }
+                            else{
+                                finalYPosition = rowPosition;
+                            }
+
+                            //set x, y attribute
+                            d3.select(this).attr({
+                                x: finalXPosition,
+                                y: finalYPosition
+                            })
+
+                        });
+
+                labelSection.append("tspan")
+                        .attr("x",function(d){
+                            return this.parentElement.attributes.x.value;
+                        })
+                        .text(function(d){
+                            if(d.name){
+                                return "Instance id: " + d.instanceId;
+                            }
+                            else{
+                                return "Instance unknown";
+                            }
+                        }
+                        );
+
+                labelSection.append("tspan")
+                        .attr("x",function(d){
+                               return this.parentElement.attributes.x.value;
+                        })
+                        .attr("dy","10")
+                        .text(function(d){
+                            if(d.name){
+                                return "Description: " + d.description;
+                            }
+                            else{
+                                return "Description: ";
+                            }
+                        });
+
+                labelSection.append("tspan")
+                                .attr("x",function(d){
+                                    return this.parentElement.attributes.x.value;
+                                })
+                                .attr("dy","10")
+                                .text(function(d){
+                                    if(d.name){
+                                        return "Private Ip: " + d.privateIp;
+                                    }
+                                    else{
+                                        return "Private Ip: ";
+                                    }
+                                });
+
+
+            }
+        );
+        }
+
+        my.instanceRectHeight = function(value){
+            if(!arguments.length) return instanceRectHeight;
+            instanceRectHeight = value;
+            return my;
+        }
+
+        my.startXPosition = function(value){
+            if(!arguments.length) return startXPosition;
+            startXPosition = value;
+            return my;
+        }
+
+        my.startYPosition = function(value){
+            if(!arguments.length) return startYPosition;
+            startYPosition = value;
+            return my;
+        }
+
+        my.regionRectWidth = function(value){
+            if(!arguments.length) return regionRectWidth;
+            regionRectWidth = value;
+            return my;
+        }
+
+        my.parentRectWidth = function(value){
+            if(!arguments.length) return parentRectWidth;
+            parentRectWidth = value;
+            return my;
+        }
+
+        my.rectStyle = function(value){
+            if(!arguments.length) return rectStyle;
+            rectStyle = value;
+            return my;
+        }
+
+        //X Coordinate of Row
+        my.rowPosition = function(value){
+            if(!arguments.length) return rowPosition;
+            rowPosition = value;
+            return my;
+        }
+
+        var xPositionHelper = function(d,i){
+            if(i===0){
+                return startXPosition;
+            }
+            else{
+                return startXPosition + (i * regionRectWidth) + (i * 10);
+            }
+        }
+
+        return my;
+    }
+
+
+    var heading = [{name: 'AWS'}];
+
+    var awsCloudChartHeading = cloudChart()
+            .startXPosition(53)
+            .startYPosition(40)
+            .titleLabelLeftPadding(60)
+            .cloudClassName('cloudAws');
+
+    d3.select("body")
+            .datum(heading)
+            .call(awsCloudChartHeading);
+
+    //Using mock/dummy data
+
+    var regionAreas = [{name: 'us-east-1', numberOfInstances: 8}];
+    var regionAreaTopBottomPadding = regionAreas[0].numberOfInstances * 50;
+
+    var awsRegionsChart = networkChartRegions()
+                              .startXPosition(73)
+                              .startYPosition(115)
+                              .instanceRectHeight(120)
+                              .rectStyle({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#ea6c00','stroke-width':4.15884066,'stroke-linejoin':'round','stroke-miterlimit':4,
+                                           'stroke-opacity':0.93607309, 'stroke-dasharray': 12.4765228, 'stroke-dashoffset':0 })
+                              .groupClassName("regionGroup")
+                              .label("Region")
+                              .topBottomPadding(regionAreaTopBottomPadding);
+    d3.select("body")
+      .datum(regionAreas)
+      .call(awsRegionsChart);
+
+    var availZones =  [{name: 'us-east-1a', numberOfInstances: 8}];
+    var availZonesTopBottomPadding = availZones[0].numberOfInstances * 45;
+    var awsAvailZonesChart = networkChartRegions()
+                                .startXPosition(83)
+                                .startYPosition(145)
+                                .instanceRectHeight(120)
+                                .rectStyle({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#eaab00','stroke-width':2.70983338000000007,'stroke-opacity':1})
+                                .groupClassName("availZoneGroup")
+                                .label("Avail. Zone")
+                                .topBottomPadding(availZonesTopBottomPadding)
+                                .titleLabelLeftPadding(25)
+                                .parentRectWidth(610);
+
+      d3.select("body")
+                .datum(availZones)
+                .call(awsAvailZonesChart);
+
+    //multiple vpc example
+    //var vpcList1 = [{name: 'vpc-ext1',numberOfInstances: 4},{name: 'vpc-ext2',numberOfInstances: 4}];
+    //or Single vpc example
+    var vpcList1 = [{name: 'vpc-ext1',numberOfInstances: 4}];
+    vpcList1.forEach(function(element, index, array){
+            var numColumns = 2;
+            var instanceRectHeight = 120;
+            var vpcStartYPosition = 0;
+            var vpcTopBottomPadding = element.numberOfInstances * 35;
+            if(index === 0){
+                vpcStartYPosition = 175;
+            }
+            else{ //calculate how much to move VPC rectangle down based on size of previous VPC rectangle and number of columns used
+                vpcStartYPosition = 175 + (instanceRectHeight * array[index-1].numberOfInstances)/numColumns + 180;
+            }
+
+            var awsVPCsChart = networkChartRegions()
+                    .startXPosition(93)
+                    .startYPosition(vpcStartYPosition)
+                    .instanceRectHeight(instanceRectHeight)
+                    .rectStyle({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#000000','stroke-width':2.70983338000000007 })
+                    .groupClassName("vpcGroup" + index.toString())
+                    .label("VPC")
+                    .topBottomPadding(vpcTopBottomPadding)
+                    .titleLabelLeftPadding(25)
+                    .parentRectWidth(590);
+
+            //d3 works with data arrays , construct single item array
+            var itemArray = [vpcList1[index]];
+
+            d3.select("body")
+                    .datum(itemArray)
+                    .call(awsVPCsChart);
+
+        });
+
+        var subnet1 = [{name: 'subnet 1', numberOfInstances: 4}];
+        var subnetTopBottomPadding = subnet1[0].numberOfInstances * 25;
+        var awsSubnetChart = networkChartRegions()
+            .startXPosition(103)
+            .startYPosition(200)
+            .instanceRectHeight(120)
+            .rectStyle({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#1100ed','stroke-width':2.70983338000000007,'stroke-linejoin':'round','stroke-miterlimit':4,
+                'stroke-opacity':93607309, 'stroke-dasharray': 8.61824605, 'stroke-dashoffset':0})
+            .groupClassName("subnetGroup")
+            .topBottomPadding(subnetTopBottomPadding)
+            .titleLabelLeftPadding(35)
+            .parentRectWidth(570);
+
+        d3.select("body")
+                .datum(subnet1)
+                .call(awsSubnetChart);
+
+       //instances
+
+       var instancesInSubnet1 = [{name: 'instance1', instanceId: '2365i', description: 'Web Server', privateIp: '192.168.0.1'},
+           {name: 'instance2', instanceId: '2366i', description: 'Smtp Server', privateIp: '192.168.0.2'},
+           {name: 'instance3', instanceId: '2367i', description: 'Lb Server', privateIp: '192.168.0.3'},
+           {name: 'instance4', instanceId: '2368i', description: 'Db Server', privateIp: '192.168.0.4'}
+       ];
+
+       var awsInstancesChart = networkChartInstances()
+                               .startXPosition(127)
+                               .startYPosition(210)
+                               .regionRectWidth(200)
+                               .parentRectWidth(570)
+                               .rectStyle({'opacity':0.90946499999999997,'fill':'#f68d00','fill-opacity':1 });
+
+       d3.select("body")
+            .datum(instancesInSubnet1)
+            .call(awsInstancesChart);
+
+
+
+</script>
+
+
+</body>
+
+</html>

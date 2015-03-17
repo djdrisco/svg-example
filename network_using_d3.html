@@ -112,6 +112,7 @@
 
     var region = d3.select("body")
             .append("svg")
+            .attr("xmlns","http://www.w3.org/2000/svg")
             .attr("height", "3000px")
             .attr("width", "100%");
 
@@ -125,12 +126,13 @@
     var regionRectWidth =  610;
 
     var posY = 10;
+    var posTextY = 10;
 
-    var regionEnter = region.selectAll("svg")
+    var regionEnter = region.selectAll("g.regionGroup")
             .data(regionAreas)
             .enter()
                .append("g")
-               //.attr("class","regionGroup")
+               .attr("class","regionGroup")
                .append("rect")
                     .style({'opacity':0.90946499999999997,'fill':'#cccbbe','fill-opacity':1,'stroke':'#000000','stroke-width':2.70983338000000007,'stroke-opacity':1})
                     .attr("class","region")
@@ -157,15 +159,33 @@
                            }
                     });
 
+
+
      //Add Text Label to Each Region
+
+    var labelRegions = region.selectAll(".regionGroup");
+
        region.selectAll(".regionGroup")
                .append("text")
                .attr("transform", function(d,i){
-                 return "translate(" + regionRectHeight * i + ",0";
+                 return "translate(" + regionRectHeight * i + ",0)";
                })
-               .attr("font-size","2em")
-               .attr("color", "black")
-              .text(function(d){
+               .attr("font-size","12px")
+               .attr("font-family","Verdana")
+               .attr("font-weight","bold")
+               .attr("x","74")
+               .attr("y", function(d,i){
+                   var newPosY;
+                   if(i==0){
+                       posTextY = posTextY + 80;
+                       return posTextY;
+                   }
+                   else{
+                       posTextY = posTextY + regionRectHeight + 80;
+                       return posTextY;
+                   }
+               })
+               .text(function(d){
                  if(d.name){
                     return d.name;
                  }
@@ -175,7 +195,23 @@
        });
 
 
+
+
 </script>
+
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="100px" height="30px" viewBox="0 0 1000 300" id="2">
+
+    <text x="250" y="150"
+          font-family="Verdana"
+          font-size="2em">
+        Hello, out there
+    </text>
+
+    <!-- Show outline of canvas using 'rect' element -->
+    <rect x="1" y="1" width="998" height="298"
+          fill="none" stroke-width="2" />
+</svg>
 </body>
 
 </html>
